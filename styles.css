@@ -33,7 +33,16 @@ body {
     box-shadow: none; 
     appearance: none; 
 }
+.EventsList
+    {
+        background-color: #800000; 
+        color: white; 
 
+        padding: 1%; 
+        margin: 20  px; 
+        border-radius: 10px;
+        box-shadow: 2px 2px 5px rgb(255, 0, 0);
+    }
 #background {
 	width: 100%;
 	min-height: 10px;
