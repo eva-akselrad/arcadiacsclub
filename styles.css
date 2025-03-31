@@ -19,14 +19,21 @@ body {
 }
 
 .sidebar-item {
-    padding: 50px;
-    text-align: center;
-    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    background: none;
+    color: white;
     cursor: pointer;
-    margin-bottom: 10px;
-    background-color: #868686;
-    color: #ffffff;
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: inherit; 
+    font-family: inherit; 
+    outline: none; 
+    box-shadow: none; 
+    appearance: none; 
 }
+
 #background {
 	width: 100%;
 	min-height: 10px;
@@ -58,14 +65,18 @@ body {
 .welcome, .what-we-do, .meeting-time, .background-note {
     background-color: #000000;
     padding: 20px;
+    margin: 10px;
     margin-bottom: 10px;
     text-align: center;
     border: 1px solid #ff0000;
     border-radius: 100px;
     box-shadow: 2px 2px 5px rgb(255, 0, 0);
     color: white;
+    min-height: 40px;
+    max-height: 40px;
+    min-width: 400px;
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
-.what-we-do, .meeting-time {
-    min-height: 80px; 
-}
