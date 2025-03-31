@@ -1,0 +1,71 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; 
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #800000; 
+    color: white; 
+    padding: 1%; 
+    margin: 0px; 
+}
+
+.sidebar-item {
+    padding: 50px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    background-color: #868686;
+    color: #ffffff;
+}
+#background {
+	width: 100%;
+	min-height: 10px;
+	flex: 1 1 100%;
+	overflow: hidden;
+	
+}
+.sidebar-item:hover {
+    background-color: #4c4c4c;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 0; 
+    margin: 0; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.header {
+    font-size: 4em;
+    font-weight: bold;
+    margin: 0; 
+    padding: 10px; 
+    background-color: #800000; 
+    color: white; 
+}
+
+.welcome, .what-we-do, .meeting-time, .background-note {
+    background-color: #000000;
+    padding: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    border: 1px solid #ff0000;
+    border-radius: 100px;
+    box-shadow: 2px 2px 5px rgb(255, 0, 0);
+    color: white;
+}
+
+.what-we-do, .meeting-time {
+    min-height: 80px; 
+}
