@@ -25,7 +25,7 @@ body {
 }
 
 .sidebar-item {
-    padding: 60px;
+    padding: 10%;
     margin-bottom: 60px;
     border: none;
     background: none;
@@ -63,6 +63,7 @@ body {
 }
 
 .content {
+    overflow-x: auto;
     flex-grow: 1;
     padding: 0; 
     margin: 0; 
