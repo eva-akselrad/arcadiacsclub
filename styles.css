@@ -9,7 +9,13 @@ body {
     display: flex;
     height: 100vh;
 }
-
+.footer{
+    background-color: #800000; 
+    color: white; 
+    padding: 1%; 
+    margin: 0px; 
+    text-align: center;
+}
 .sidebar {
     width: 200px;
     background-color: #800000; 
@@ -19,19 +25,21 @@ body {
 }
 
 .sidebar-item {
-    padding: 10px;
+    padding: 60px;
+    margin-bottom: 60px;
     border: none;
     background: none;
     color: white;
     cursor: pointer;
     width: 100%;
-    margin-bottom: 20px;
+    
     text-align: center;
     font-size: inherit; 
     font-family: inherit; 
     outline: none; 
     box-shadow: none; 
     appearance: none; 
+    background-color: #3a3a3a;
 }
 .EventsList
     {
