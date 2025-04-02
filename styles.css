@@ -9,6 +9,7 @@ body {
     display: flex;
     height: 100vh;
 }
+
 .footer{
     background-color: #800000; 
     color: white; 
@@ -16,12 +17,14 @@ body {
     margin: 0px; 
     text-align: center;
 }
+
 .sidebar {
     width: 200px;
     background-color: #800000; 
     color: white; 
     padding: 1%; 
     margin: 0px; 
+    overflow-y: auto;
 }
 
 .sidebar-item {
@@ -32,7 +35,6 @@ body {
     color: white;
     cursor: pointer;
     width: 100%;
-    
     text-align: center;
     font-size: inherit; 
     font-family: inherit; 
@@ -41,23 +43,23 @@ body {
     appearance: none; 
     background-color: #3a3a3a;
 }
-.EventsList
-    {
-        background-color: #800000; 
-        color: white; 
 
-        padding: 1%; 
-        margin: 20  px; 
-        border-radius: 10px;
-        box-shadow: 2px 2px 5px rgb(255, 0, 0);
-    }
-#background {
-	width: 100%;
-	min-height: 10px;
-	flex: 1 1 100%;
-	overflow: hidden;
-	
+.EventsList {
+    background-color: #800000; 
+    color: white; 
+    padding: 1%; 
+    margin: 20px; 
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgb(255, 0, 0);
 }
+
+#background {
+    width: 100%;
+    min-height: 10px;
+    flex: 1 1 100%;
+    overflow: hidden;
+}
+
 .sidebar-item:hover {
     background-color: #4c4c4c;
 }
@@ -91,10 +93,40 @@ body {
     box-shadow: 2px 2px 5px rgb(255, 0, 0);
     color: white;
     min-height: 40px;
-    max-height: 40px;
     min-width: 400px;
     max-width: 800px;
     margin-right: auto;
     margin-left: auto;
+    
 }
 
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; 
+        height: auto; 
+    }
+
+    .sidebar {
+        width: 100%; 
+        padding: 0; 
+        
+    }
+
+    .sidebar-item {
+        padding: 20px; 
+        margin-bottom: 10px; 
+    }
+
+    .header {
+        font-size: 2.5em; 
+    }
+
+    .welcome, .what-we-do, .meeting-time, .background-note {
+        min-width: auto; 
+        max-width: 95%; 
+        margin: 10px auto; 
+        padding: 15px; 
+        border-radius: 50px; 
+    }
+}
