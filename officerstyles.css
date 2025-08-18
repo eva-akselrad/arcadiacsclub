@@ -1,0 +1,190 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; 
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.footer{
+    background-color: #800000; 
+    color: white; 
+    padding: 1%; 
+    margin: 0px; 
+    text-align: center;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #800000; 
+    color: white; 
+    padding: 1%; 
+    margin: 0px; 
+    overflow-y: auto;
+}
+
+.sidebar-item {
+    padding: 30%;
+    margin-bottom: 60px;
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    font-size: inherit; 
+    font-family: inherit; 
+    outline: none; 
+    box-shadow: none; 
+    appearance: none; 
+    background-color: #3a3a3a;
+}
+
+.EventsList {
+    background-color: #800000; 
+    color: white; 
+    padding: 1%; 
+    margin: 20px; 
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgb(255, 0, 0);
+}
+
+#background {
+    width: 100%;
+    min-height: 10px;
+    flex: 1 1 100%;
+    overflow: hidden;
+}
+
+.sidebar-item:hover {
+    background-color: #4c4c4c;
+}
+
+.content {
+    overflow-x: auto;
+    flex-grow: 1;
+    padding: 20px;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    align-items: start;
+}
+
+.header {
+    font-size: 4em;
+    font-weight: bold;
+    margin: 0; 
+    padding: 10px; 
+    background-color: #800000; 
+    color: white; 
+}
+
+.welcome, .what-we-do, .meeting-time, .background-note {
+    background-color: #000000;
+    padding: 20px;
+    margin: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    border: 1px solid #ff0000;
+    border-radius: 100px;
+    box-shadow: 2px 2px 5px rgb(255, 0, 0);
+    color: white;
+    min-height: 40px;
+    min-width: 400px;
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.officer {
+    background-color: #000000;
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+    border: 1px solid #ff0000;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgb(255, 0, 0);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 0;
+    }
+
+    .sidebar-item {
+        padding: 20px;
+        margin-bottom: 10px;
+    }
+
+    .header {
+        font-size: 2.5em;
+    }
+
+    .content {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+}
+.officer {
+    background-color: #000000;
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+    border: 1px solid #ff0000;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgb(255, 0, 0);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.officer-headshot {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ff0000;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.officer h2 {
+    font-size: 2em;
+    margin: 0;
+    color: #ff0000;
+}
+
+.officer p {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.officer-bio {
+    margin-top: 15px;
+    font-size: 1em;
+    font-style: italic;
+    text-align: left;
+    max-width: 90%;
+}
+
+.officer-headshot.blank {
+    background-color: #333;
+    border: 3px dashed #ff0000;
+}

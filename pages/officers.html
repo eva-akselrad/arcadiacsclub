@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script defer src="/_vercel/insights/script.js"></script>
     <title>Officers</title>
     <link rel="icon" href="knight.ico" type="image/x-icon" />
 
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../officerstyles.css" />
     <meta
       name="description"
       content="The officers of the Arcadia University Computer Science Club"
@@ -16,41 +15,100 @@
   </head>
   <body>
     <div id="background">
-    <div class="container">
-      <aside class="sidebar">
-       
-        <button class="sidebar-item" onclick="window.location.href='../index.html'">Home</button>
-        <button class="sidebar-item" onclick="window.location.href='signup.html'">Sign Up</button>
-        <button class="sidebar-item" onclick="window.location.href='calendar.html'">Calendar</button>
-        <button class="sidebar-item" onclick="window.location.href='events.html'">Events</button>
-        <button class="sidebar-item" onclick="window.location.href='officers.html'">Officers</button>
-      </aside>
-      <main class="content">
+      <div class="container">
+        <aside class="sidebar">
+          <button
+            class="sidebar-item"
+            onclick="window.location.href='../index.html'"
+          >
+            Home
+          </button>
+          <button
+            class="sidebar-item"
+            onclick="window.location.href='signup.html'"
+          >
+            Sign Up
+          </button>
+          <button
+            class="sidebar-item"
+            onclick="window.location.href='calendar.html'"
+          >
+            Calendar
+          </button>
+          <button
+            class="sidebar-item"
+            onclick="window.location.href='events.html'"
+          >
+            Events
+          </button>
+          <button
+            class="sidebar-item"
+            onclick="window.location.href='officers.html'"
+          >
+            Officers
+          </button>
+        </aside>
+        <main class="content">
           <section class="officer">
             <h2>President</h2>
-            <img src="../images/president.jpg" alt="President Headshot" class="officer-headshot">
-            <p>John Doe</p>
+            <img
+              src="../images/emily.jpg"
+              alt="President Headshot"
+              class="officer-headshot"
+            />
+            <p>Emily Sandoval-Morris</p>
+            <p class="officer-bio">
+               I am a Computer Science Major and I am very excited to meet anyone who wants to join! I like to build, fix, and tinker computer builds, play video games, and hangout with friends. Feel free to contact me with any questions, concerns, or even help with code! esandovalmorris@arcadia.edu
+            </p>
           </section>
 
-      </main>
-  </div>
- </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
-  <script>
-  VANTA.NET({
-    el: "#background",
-    mouseControls: true,
-    touchControls: true,
-    gyroControls: false,
-    minHeight: 200.00,
-    minWidth: 200.00,
-    scale: 1.00,
-    scaleMobile: 1.00,
-    color: 0xff0000,
-    backgroundColor: 0x0
-  })
-  </script>
+          <section class="officer">
+            <h2>Vice President</h2>
+            <div class="officer-headshot blank"></div>
+            <p>Name and Bio coming soon!</p>
+          </section>
+
+          <section class="officer">
+            <h2>Treasurer</h2>
+            <div class="officer-headshot blank"></div>
+            <p>Name and Bio coming soon!</p>
+          </section>
+
+          <section class="officer">
+            <h2>Secretary</h2>
+            <div class="officer-headshot blank"></div>
+            <p>Name and Bio coming soon!</p>
+          </section>
+
+          <section class="officer">
+            
+            <h2>Website Manager</h2>
+            <img
+              src="../images/eva.webp"
+              alt="Website Manager Headshot"
+              class="officer-headshot"
+            />
+            <p>Eva Akselrad</p>
+            <p class = "officer-bio">I am a sophmore CompSci major and I am very excited to meet anyone who wants to join! My passion is lighting design and I love working on creative projects. Feel free to reach out to me at eakselrad@arcadia.edu</p>
+          </section>
+        </main>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script>
+      VANTA.NET({
+        el: "#background",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0xff0000,
+        backgroundColor: 0x0,
+      });
+    </script>
   </body>
 </html>
-<!-- Compare this snippet from pages/events.html: -->
