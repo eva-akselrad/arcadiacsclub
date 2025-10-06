@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 body {
-    font-family: sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0; 
+    background-color: #0a0a0a; 
+    color: #ffffff;
+    line-height: 1.6;
 }
 
 .container {
@@ -11,46 +15,93 @@ body {
 }
 
 .footer{
-    background-color: #800000; 
-    color: white; 
-    padding: 1%; 
+    background: linear-gradient(135deg, #8b0000 0%, #660000 100%);
+    color: rgba(255, 255, 255, 0.9); 
+    padding: 2rem; 
     margin: 0px; 
     text-align: center;
+    font-size: 0.95rem;
+    border-top: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+.footer a {
+    color: #ff6666;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.footer a:hover {
+    color: #ff9999;
 }
 
 .sidebar {
-    width: 200px;
-    background-color: #800000; 
+    width: 250px;
+    background: linear-gradient(135deg, #8b0000 0%, #660000 100%);
     color: white; 
-    padding: 1%; 
+    padding: 2rem 1rem; 
     margin: 0px; 
     overflow-y: auto;
+    box-shadow: 4px 0 20px rgba(139, 0, 0, 0.3);
+    transition: all 0.3s ease;
 }
 
 .sidebar-item {
-    padding: 30%;
-    margin-bottom: 60px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
     border: none;
-    background: none;
+    background: rgba(255, 255, 255, 0.08);
     color: white;
     cursor: pointer;
     width: 100%;
-    text-align: center;
-    font-size: inherit; 
-    font-family: inherit; 
+    text-align: left;
+    font-size: 1rem; 
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
     outline: none; 
-    box-shadow: none; 
-    appearance: none; 
-    background-color: #3a3a3a;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 0.025em;
 }
 
 .EventsList {
-    background-color: #800000; 
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.9) 0%, rgba(102, 0, 0, 0.95) 100%);
     color: white; 
-    padding: 1%; 
-    margin: 20px; 
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px rgb(255, 0, 0);
+    padding: 2rem; 
+    margin: 2rem auto; 
+    max-width: 800px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(255, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    border: 2px solid rgba(255, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.EventsList:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 48px rgba(255, 0, 0, 0.3);
+}
+
+.EventsList h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    margin-top: 0;
+    letter-spacing: -0.01em;
+}
+
+.EventsList ul {
+    list-style: none;
+    padding: 0;
+}
+
+.EventsList li {
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    border-left: 4px solid #ff0000;
 }
 
 #background {
@@ -61,45 +112,111 @@ body {
 }
 
 .sidebar-item:hover {
-    background-color: #4c4c4c;
+    background: rgba(255, 0, 0, 0.15);
+    transform: translateX(5px);
+    border-color: rgba(255, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+}
+
+.sidebar-item:active {
+    transform: translateX(3px) scale(0.98);
 }
 
 .content {
     overflow-x: auto;
     flex-grow: 1;
-    padding: 20px;
+    padding: 2rem;
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
     justify-content: center;
     align-items: start;
+    background: rgba(10, 10, 10, 0.6);
 }
 
 .header {
-    font-size: 4em;
-    font-weight: bold;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
     margin: 0; 
-    padding: 10px; 
-    background-color: #800000; 
-    color: white; 
+    padding: 3rem 2rem; 
+    background: linear-gradient(135deg, #a00000 0%, #6b0000 100%);
+    color: white;
+    text-align: center;
+    letter-spacing: -0.02em;
+    box-shadow: 0 4px 20px rgba(139, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.header:hover::before {
+    left: 100%;
 }
 
 .welcome, .what-we-do, .meeting-time, .background-note {
-    background-color: #000000;
-    padding: 20px;
-    margin: 10px;
-    margin-bottom: 10px;
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+    padding: 2.5rem;
+    margin: 2rem auto;
     text-align: center;
-    border: 1px solid #ff0000;
-    border-radius: 100px;
-    box-shadow: 2px 2px 5px rgb(255, 0, 0);
+    border: 2px solid rgba(255, 0, 0, 0.3);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(255, 0, 0, 0.15), 
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset;
     color: white;
-    min-height: 40px;
-    min-width: 400px;
-    max-width: 800px;
-    margin-right: auto;
-    margin-left: auto;
+    min-height: 60px;
+    max-width: 900px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.welcome:hover, .what-we-do:hover, .meeting-time:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 48px rgba(255, 0, 0, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    border-color: rgba(255, 0, 0, 0.5);
+}
+
+.welcome {
+    font-size: 2rem;
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.01em;
+}
+
+.what-we-do p {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.what-we-do a, .welcome a {
+    color: #ff4444;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+}
+
+.what-we-do a:hover, .welcome a:hover {
+    color: #ff6666;
+    border-bottom-color: #ff4444;
+}
+
+.meeting-time {
+    font-size: 1.3rem;
+    font-weight: 500;
 }
 
 .officer {
@@ -124,35 +241,48 @@ body {
 
     .sidebar {
         width: 100%;
-        padding: 0;
+        padding: 1rem;
+        box-shadow: 0 4px 20px rgba(139, 0, 0, 0.3);
     }
 
     .sidebar-item {
-        padding: 20px;
-        margin-bottom: 10px;
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
     }
 
     .header {
-        font-size: 2.5em;
+        font-size: 2rem;
+        padding: 2rem 1rem;
     }
 
     .content {
         grid-template-columns: 1fr;
-        padding: 10px;
+        padding: 1rem;
     }
 }
 .officer {
-    background-color: #000000;
-    padding: 20px;
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+    padding: 2rem;
     margin: 0;
     text-align: center;
-    border: 1px solid #ff0000;
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px rgb(255, 0, 0);
+    border: 2px solid rgba(255, 0, 0, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(255, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset;
     color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.officer:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 48px rgba(255, 0, 0, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    border-color: rgba(255, 0, 0, 0.5);
 }
 
 .officer-headshot {
@@ -160,31 +290,45 @@ body {
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #ff0000;
-    margin-top: 15px;
-    margin-bottom: 10px;
+    border: 4px solid rgba(255, 0, 0, 0.6);
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(255, 0, 0, 0.3);
+}
+
+.officer:hover .officer-headshot {
+    transform: scale(1.05);
+    border-color: rgba(255, 0, 0, 0.9);
+    box-shadow: 0 6px 30px rgba(255, 0, 0, 0.5);
 }
 
 .officer h2 {
-    font-size: 2em;
-    margin: 0;
-    color: #ff0000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    margin: 0 0 0.5rem 0;
+    color: #ff4444;
+    font-weight: 600;
+    letter-spacing: -0.01em;
 }
 
 .officer p {
-    font-size: 1.2em;
-    margin: 0;
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .officer-bio {
-    margin-top: 15px;
-    font-size: 1em;
+    margin-top: 1rem;
+    font-size: 0.95rem;
     font-style: italic;
     text-align: left;
     max-width: 90%;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.7;
 }
 
 .officer-headshot.blank {
-    background-color: #333;
-    border: 3px dashed #ff0000;
+    background: linear-gradient(135deg, #222 0%, #111 100%);
+    border: 3px dashed rgba(255, 0, 0, 0.5);
 }
