@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  officer: CollectionEntry<'officers'>;
+}
+
+const { officer } = Astro.props;
+const { name, role, email, bio, image, comingSoon } = officer.data;
+const altText = comingSoon ? `${role} — photo coming soon` : `${name}, ${role}`;
+---
+
+<article class="officer-card">
+  {
+    image ? (
+      <img src={image} alt={altText} loading="lazy" width="400" height="400" />
+    ) : (
+      <div class="officer-placeholder" role="img" aria-label={`${role} — photo coming soon`}>
+        Photo coming soon
+      </div>
+    )
+  }
+  <div class="officer-body">
+    <h2>{role}</h2>
+    <p class="officer-name">{comingSoon && name === 'TBD' ? 'Coming soon' : name}</p>
+    {bio && <p class="officer-bio">{bio}</p>}
+    {
+      email && (
+        <p class="officer-email">
+          <a href={`mailto:${email}`}>Email {name.split(' ')[0]}</a>
+        </p>
+      )
+    }
+  </div>
+</article>

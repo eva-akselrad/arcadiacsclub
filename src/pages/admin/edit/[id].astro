@@ -1,0 +1,48 @@
+---
+export const prerender = false;
+
+import Layout from '../../../layouts/Layout.astro';
+import EventForm from '../../../components/EventForm.astro';
+import { getEnv, getEvent } from '../../../lib/db';
+
+const id = Number(Astro.params.id);
+if (!Number.isFinite(id)) {
+  return Astro.redirect('/admin');
+}
+
+const env = getEnv(Astro);
+const event = await getEvent(env.DB, id);
+
+if (!event) {
+  return Astro.redirect('/admin');
+}
+
+function toLocalInput(iso: string) {
+  const date = new Date(iso);
+  const offset = date.getTimezoneOffset();
+  const local = new Date(date.getTime() - offset * 60_000);
+  return local.toISOString().slice(0, 16);
+}
+---
+
+<Layout title={`Admin — Edit ${event.title}`} description="Edit a club calendar event.">
+  <header class="page-header">
+    <h1>Edit event</h1>
+    <p>Update details for "{event.title}".</p>
+  </header>
+
+  <EventForm
+    submitLabel="Save changes"
+    event={{
+      id: event.id,
+      title: event.title,
+      description: event.description,
+      location: event.location,
+      start_at: toLocalInput(event.start_at),
+      end_at: toLocalInput(event.end_at),
+      all_day: event.all_day === 1,
+      category: event.category,
+      recurrence_rule: event.recurrence_rule,
+    }}
+  />
+</Layout>

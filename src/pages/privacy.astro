@@ -1,0 +1,102 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const siteEntry = await getEntry('site', 'config');
+const site = siteEntry?.data;
+const siteUrl = site?.siteUrl ?? 'https://arcadiacs.club';
+const lastUpdated = 'August 13, 2026';
+---
+
+<Layout
+  title="Privacy Policy"
+  description="Privacy policy for the Arcadia University Computer Science Club website."
+>
+  <article class="legal-content card">
+    <header class="page-header">
+      <h1>Privacy Policy</h1>
+      <p>Last updated: {lastUpdated}</p>
+    </header>
+
+    <p>
+      This policy describes how the Arcadia University Computer Science Club ("we", "us", "the
+      club") collects and uses information when you visit <a href={siteUrl}>{siteUrl}</a>.
+    </p>
+
+    <h2>Information we collect</h2>
+    <ul>
+      <li>
+        <strong>Contact form:</strong> If you submit our contact form, we collect your name,
+        email address, subject, message, and the topic you select (general or website support).
+      </li>
+      <li>
+        <strong>Sign-up form:</strong> Club membership sign-up is handled by Google Forms. Data
+        you submit there is governed by Google's privacy policy.
+      </li>
+      <li>
+        <strong>Technical data:</strong> Our hosting provider (Cloudflare) may process standard
+        server logs such as IP address, browser type, and pages visited for security and
+        performance.
+      </li>
+      <li>
+        <strong>Bot protection:</strong> We use Cloudflare Turnstile on the contact form to reduce
+        spam. Cloudflare may process technical signals as part of that service.
+      </li>
+    </ul>
+
+    <h2>How we use information</h2>
+    <ul>
+      <li>Respond to club or website-related inquiries sent through the contact form.</li>
+      <li>Operate and secure the website, including calendar and admin features.</li>
+      <li>Prevent abuse of our forms and services.</li>
+    </ul>
+
+    <h2>Where messages are sent</h2>
+    <ul>
+      <li>General club questions are emailed to <a href="mailto:contact@arcadiacs.club">contact@arcadiacs.club</a>.</li>
+      <li>
+        Website support requests are emailed to <a href="mailto:admin@arcadiacs.club">admin@arcadiacs.club</a>.
+      </li>
+    </ul>
+
+    <h2>Sharing</h2>
+    <p>
+      We do not sell your personal information. We share data only with service providers needed
+      to run the site (for example, Cloudflare for hosting, email delivery, and Turnstile) and
+      with club officers who need to respond to your message.
+    </p>
+
+    <h2>Retention</h2>
+    <p>
+      Contact form submissions are retained in email inboxes for as long as officers need them
+      to respond and operate the club. Calendar event data is stored in our database until
+      updated or removed by authorized administrators.
+    </p>
+
+    <h2>Your choices</h2>
+    <p>
+      You may choose not to submit the contact form. To ask about data we hold about you, contact
+      us at <a href="mailto:contact@arcadiacs.club">contact@arcadiacs.club</a>.
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      This site is intended for Arcadia University students and community members. We do not
+      knowingly collect information from children under 13.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      We may update this policy from time to time. The "Last updated" date at the top will
+      reflect the latest version.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about this policy: <a href="mailto:contact@arcadiacs.club">contact@arcadiacs.club</a>
+      or <a href="/contact">our contact form</a>.
+    </p>
+  </article>
+</Layout>

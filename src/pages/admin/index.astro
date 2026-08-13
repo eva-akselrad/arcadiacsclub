@@ -1,0 +1,97 @@
+---
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import { getEnv, listEvents } from '../../lib/db';
+
+const env = getEnv(Astro);
+const events = await listEvents(env.DB);
+
+function formatWhen(start: string, end: string) {
+  const s = new Date(start);
+  const e = new Date(end);
+  return `${s.toLocaleString()} – ${e.toLocaleString()}`;
+}
+---
+
+<Layout title="Admin — Events" description="Manage club calendar events.">
+  <header class="page-header">
+    <h1>Event manager</h1>
+    <p>Create, edit, and delete club calendar events.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/admin/new">New event</a>
+      <a class="btn btn-secondary" href="/calendar">View public calendar</a>
+    </div>
+  </header>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>When</th>
+        <th>Location</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        events.length === 0 ? (
+          <tr>
+            <td colspan="4">No events yet. Create your first event.</td>
+          </tr>
+        ) : (
+          events.map((event) => (
+            <tr>
+              <td>{event.title}</td>
+              <td>{formatWhen(event.start_at, event.end_at)}</td>
+              <td>{event.location ?? '—'}</td>
+              <td>
+                <div class="admin-actions">
+                  <a class="btn btn-secondary" href={`/admin/edit/${event.id}`}>Edit</a>
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    data-delete-id={event.id}
+                    data-delete-title={event.title}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))
+        )
+      }
+    </tbody>
+  </table>
+
+  <div class="toast" id="admin-toast" role="status" aria-live="polite"></div>
+</Layout>
+
+<script>
+  const toast = document.getElementById('admin-toast');
+
+  function showToast(message: string) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('visible');
+    setTimeout(() => toast.classList.remove('visible'), 3000);
+  }
+
+  document.querySelectorAll('[data-delete-id]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const id = button.getAttribute('data-delete-id');
+      const title = button.getAttribute('data-delete-title');
+      if (!id || !confirm(`Delete "${title}"?`)) return;
+
+      const res = await fetch(`/api/admin/events/${id}`, { method: 'DELETE' });
+      if (!res.ok) {
+        showToast('Failed to delete event');
+        return;
+      }
+
+      showToast('Event deleted');
+      setTimeout(() => window.location.reload(), 500);
+    });
+  });
+</script>

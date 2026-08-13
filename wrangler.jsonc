@@ -1,0 +1,48 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "arcadiacs-club",
+  "account_id": "c0bdb071b67899c6590000ba154912e9",
+  "main": "dist/_worker.js/index.js",
+  "compatibility_date": "2026-08-13",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "arcadiacs-events",
+      "database_id": "a7327e35-7f33-487e-96d9-f35c0d0d2b00",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "send_email": [
+    {
+      "name": "EMAIL"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "6bbdbf03daf446e9aaa963f7a947adb0"
+    }
+  ],
+  "vars": {
+    "ACCESS_TEAM_DOMAIN": "weathernow-7uq-pages.cloudflareaccess.com",
+    "CONTACT_TO_EMAIL": "contact@arcadiacs.club",
+    "CONTACT_FROM_EMAIL": "noreply@arcadiacs.club",
+    "WEB_SUPPORT_TO_EMAIL": "admin@arcadiacs.club",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAEPPZYNS3YvLYMdH"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "arcadiacs.club",
+      "custom_domain": true
+    }
+  ]
+}

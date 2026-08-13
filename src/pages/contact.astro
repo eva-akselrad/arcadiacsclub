@@ -1,0 +1,150 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getEnv } from '../lib/db';
+
+export const prerender = false;
+
+const env = getEnv(Astro);
+const turnstileSiteKey = env.TURNSTILE_SITE_KEY ?? '';
+---
+
+<Layout
+  title="Contact"
+  description="Get in touch with the Arcadia University Computer Science Club."
+>
+  <header class="page-header">
+    <h1>Contact us</h1>
+    <p>
+      Have a question about the club, an event, or need help with something code-related? Send
+      us a message and we'll get back to you. For website bugs or technical issues, choose
+      <strong>Website support</strong> below.
+    </p>
+  </header>
+
+  <form class="form-card" id="contact-form">
+    <div class="form-group">
+      <label for="topic">What is this about?</label>
+      <select id="topic" name="topic" required>
+        <option value="general">General club question</option>
+        <option value="web-support">Website support (bugs, broken pages, admin access)</option>
+      </select>
+      <p class="form-hint" id="topic-hint">
+        General messages go to the club officers. Website support goes to the site administrators.
+      </p>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" required maxlength="100" autocomplete="name" />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        required
+        maxlength="254"
+        autocomplete="email"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="subject">Subject</label>
+      <input id="subject" name="subject" type="text" required maxlength="200" />
+    </div>
+
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" required maxlength="5000"></textarea>
+    </div>
+
+    <div class="hp-field" aria-hidden="true">
+      <label for="website">Website</label>
+      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="form-group">
+      <div
+        class="cf-turnstile"
+        data-sitekey={turnstileSiteKey}
+        data-action="turnstile-spin-v1"
+      />
+      {!turnstileSiteKey && (
+        <p class="form-hint form-status visible error">
+          Contact form protection is not configured. Please try again later.
+        </p>
+      )}
+    </div>
+
+    <button class="btn btn-primary" type="submit" disabled={!turnstileSiteKey}>
+      Send message
+    </button>
+    <p class="form-hint">
+      By submitting, you agree to our <a href="/privacy">Privacy Policy</a> and
+      <a href="/terms">Terms of Service</a>.
+    </p>
+    <div class="form-status" id="contact-status" role="status" aria-live="polite"></div>
+  </form>
+</Layout>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const status = document.getElementById('contact-status');
+
+  function showStatus(message: string, type: 'success' | 'error') {
+    if (!status) return;
+    status.textContent = message;
+    status.className = `form-status visible ${type}`;
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const turnstileEl = document.querySelector(
+      '[name="cf-turnstile-response"]',
+    ) as HTMLInputElement | null;
+    const turnstileToken = turnstileEl?.value ?? '';
+
+    if (!turnstileToken) {
+      showStatus('Please complete the security check before sending.', 'error');
+      return;
+    }
+
+    const payload = {
+      topic: String(data.get('topic') ?? 'general'),
+      name: String(data.get('name') ?? ''),
+      email: String(data.get('email') ?? ''),
+      subject: String(data.get('subject') ?? ''),
+      message: String(data.get('message') ?? ''),
+      website: String(data.get('website') ?? ''),
+      turnstileToken,
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = (await res.json()) as { error?: string; ok?: boolean };
+
+      if (!res.ok) {
+        showStatus(result.error ?? 'Failed to send message', 'error');
+        if (window.turnstile) window.turnstile.reset();
+        return;
+      }
+
+      showStatus("Message sent! We'll get back to you soon.", 'success');
+      form.reset();
+      if (window.turnstile) window.turnstile.reset();
+    } catch {
+      showStatus('Network error. Please try again.', 'error');
+      if (window.turnstile) window.turnstile.reset();
+    }
+  });
+</script>

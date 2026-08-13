@@ -1,0 +1,43 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const siteEntry = await getEntry('site', 'config');
+const site = siteEntry?.data;
+const formUrl = site?.googleFormUrl ?? 'https://forms.gle/Ks3ZRPTBmZKpHySZ8';
+---
+
+<Layout
+  title="Sign Up"
+  description="Join the Arcadia University Computer Science Club."
+>
+  <header class="page-header">
+    <h1>Join the club</h1>
+    <p>
+      Fill out the membership form below to get on our mailing list and hear about meetings,
+      events, and opportunities.
+    </p>
+  </header>
+
+  <div class="card" style="margin-bottom: 1.5rem">
+    <h2>Why sign up?</h2>
+    <p>
+      Stay updated on meeting times, social events, competitions, and workshops. Membership is
+      free and open to all Arcadia students — no prior coding experience required.
+    </p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href={formUrl} target="_blank" rel="noopener noreferrer">
+        Open form in new tab
+      </a>
+    </div>
+  </div>
+
+  <iframe
+    class="embed-frame"
+    src={`${formUrl}?embedded=true`}
+    title="Arcadia CS Club membership form"
+    loading="lazy"
+  ></iframe>
+</Layout>

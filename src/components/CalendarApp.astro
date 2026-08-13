@@ -1,0 +1,279 @@
+<section class="calendar-shell" id="calendar-app" aria-label="Club calendar">
+  <div class="calendar-toolbar">
+    <h2 id="calendar-month-label"></h2>
+    <div class="calendar-nav">
+      <button type="button" class="btn btn-secondary" id="cal-prev" aria-label="Previous month">←</button>
+      <button type="button" class="btn btn-secondary" id="cal-today">Today</button>
+      <button type="button" class="btn btn-secondary" id="cal-next" aria-label="Next month">→</button>
+    </div>
+  </div>
+
+  <div
+    class="calendar-grid"
+    id="calendar-grid"
+    role="grid"
+    aria-labelledby="calendar-month-label"
+  ></div>
+
+  <section aria-labelledby="upcoming-heading">
+    <div class="page-header" style="margin-top: 2rem">
+      <h2 id="upcoming-heading">Upcoming events</h2>
+    </div>
+    <ul class="event-list" id="event-list"></ul>
+    <p id="event-list-empty" hidden>No upcoming events yet. Check back soon!</p>
+  </section>
+
+  <p>
+    <a class="btn btn-secondary" href="/api/events.ics" download="arcadiacs-club.ics">
+      Download calendar (.ics)
+    </a>
+  </p>
+
+  <dialog class="event-modal" id="event-modal" aria-labelledby="event-modal-title">
+    <div class="event-modal-inner">
+      <h2 id="event-modal-title"></h2>
+      <p class="event-meta" id="event-modal-time"></p>
+      <p class="event-meta" id="event-modal-location" hidden></p>
+      <p id="event-modal-description"></p>
+      <div class="btn-row">
+        <a class="btn btn-secondary" id="event-modal-ics" href="#">Add to calendar</a>
+        <button type="button" class="btn btn-primary" id="event-modal-close">Close</button>
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<script>
+  interface CalendarEvent {
+    id: number;
+    title: string;
+    description: string | null;
+    location: string | null;
+    startAt: string;
+    endAt: string;
+    allDay: boolean;
+    category: string | null;
+  }
+
+  const monthLabel = document.getElementById('calendar-month-label')!;
+  const grid = document.getElementById('calendar-grid')!;
+  const eventList = document.getElementById('event-list')!;
+  const eventListEmpty = document.getElementById('event-list-empty')!;
+  const modal = document.getElementById('event-modal') as HTMLDialogElement;
+  const modalTitle = document.getElementById('event-modal-title')!;
+  const modalTime = document.getElementById('event-modal-time')!;
+  const modalLocation = document.getElementById('event-modal-location')!;
+  const modalDescription = document.getElementById('event-modal-description')!;
+  const modalIcs = document.getElementById('event-modal-ics') as HTMLAnchorElement;
+  const modalClose = document.getElementById('event-modal-close')!;
+
+  let current = new Date();
+  let events: CalendarEvent[] = [];
+
+  const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  function formatDateRange(event: CalendarEvent) {
+    const start = new Date(event.startAt);
+    const end = new Date(event.endAt);
+    const dateOpts: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    };
+    const timeOpts: Intl.DateTimeFormatOptions = {
+      hour: 'numeric',
+      minute: '2-digit',
+    };
+
+    if (event.allDay) {
+      return start.toLocaleDateString(undefined, dateOpts);
+    }
+
+    const sameDay = start.toDateString() === end.toDateString();
+    if (sameDay) {
+      return `${start.toLocaleDateString(undefined, dateOpts)} · ${start.toLocaleTimeString(undefined, timeOpts)} – ${end.toLocaleTimeString(undefined, timeOpts)}`;
+    }
+
+    return `${start.toLocaleString(undefined, { ...dateOpts, ...timeOpts })} – ${end.toLocaleString(undefined, { ...dateOpts, ...timeOpts })}`;
+  }
+
+  function monthRange(date: Date) {
+    const start = new Date(date.getFullYear(), date.getMonth(), 1);
+    const end = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59);
+    return { from: start.toISOString(), to: end.toISOString() };
+  }
+
+  async function loadEvents() {
+    const { from, to } = monthRange(current);
+    const upcomingFrom = new Date().toISOString();
+    const [monthRes, upcomingRes] = await Promise.all([
+      fetch(`/api/events?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`),
+      fetch(`/api/events?from=${encodeURIComponent(upcomingFrom)}`),
+    ]);
+
+    const monthEvents = (await monthRes.json()) as { events: CalendarEvent[] };
+    events = monthEvents.events ?? [];
+
+    const upcomingEvents = (await upcomingRes.json()) as { events: CalendarEvent[] };
+    renderUpcoming(upcomingEvents.events ?? []);
+    renderMonth();
+  }
+
+  function eventsOnDay(year: number, month: number, day: number) {
+    return events.filter((event) => {
+      const start = new Date(event.startAt);
+      return (
+        start.getFullYear() === year &&
+        start.getMonth() === month &&
+        start.getDate() === day
+      );
+    });
+  }
+
+  function openEvent(event: CalendarEvent) {
+    modalTitle.textContent = event.title;
+    modalTime.textContent = formatDateRange(event);
+    if (event.location) {
+      modalLocation.textContent = event.location;
+      modalLocation.hidden = false;
+    } else {
+      modalLocation.hidden = true;
+    }
+    modalDescription.textContent = event.description ?? '';
+    modalIcs.href = `/api/events/${event.id}.ics`;
+    modal.showModal();
+  }
+
+  function renderMonth() {
+    const year = current.getFullYear();
+    const month = current.getMonth();
+    monthLabel.textContent = current.toLocaleDateString(undefined, {
+      month: 'long',
+      year: 'numeric',
+    });
+
+    const firstDay = new Date(year, month, 1);
+    const startOffset = firstDay.getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const today = new Date();
+
+    grid.innerHTML = '';
+
+    for (const day of weekdays) {
+      const header = document.createElement('div');
+      header.className = 'calendar-weekday';
+      header.textContent = day;
+      grid.appendChild(header);
+    }
+
+    const totalCells = Math.ceil((startOffset + daysInMonth) / 7) * 7;
+
+    for (let i = 0; i < totalCells; i++) {
+      const dayNum = i - startOffset + 1;
+      const cell = document.createElement('div');
+      cell.className = 'calendar-day';
+      cell.setAttribute('role', 'gridcell');
+
+      if (dayNum < 1 || dayNum > daysInMonth) {
+        cell.classList.add('other-month');
+        cell.setAttribute('aria-disabled', 'true');
+        grid.appendChild(cell);
+        continue;
+      }
+
+      const cellDate = new Date(year, month, dayNum);
+      const label = cellDate.toLocaleDateString(undefined, {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      });
+      cell.setAttribute('aria-label', label);
+
+      if (cellDate.toDateString() === today.toDateString()) {
+        cell.classList.add('today');
+      }
+
+      const num = document.createElement('div');
+      num.className = 'calendar-day-num';
+      num.textContent = String(dayNum);
+      cell.appendChild(num);
+
+      const dayEvents = eventsOnDay(year, month, dayNum);
+      for (const event of dayEvents.slice(0, 2)) {
+        const chip = document.createElement('span');
+        chip.className = 'event-chip';
+        chip.textContent = event.title;
+        cell.appendChild(chip);
+      }
+
+      if (dayEvents.length > 0) {
+        cell.tabIndex = 0;
+        cell.addEventListener('click', () => openEvent(dayEvents[0]));
+        cell.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openEvent(dayEvents[0]);
+          }
+        });
+      }
+
+      grid.appendChild(cell);
+    }
+  }
+
+  function renderUpcoming(upcoming: CalendarEvent[]) {
+    eventList.innerHTML = '';
+    const limited = upcoming.slice(0, 8);
+
+    if (limited.length === 0) {
+      eventListEmpty.hidden = false;
+      return;
+    }
+
+    eventListEmpty.hidden = true;
+
+    for (const event of limited) {
+      const li = document.createElement('li');
+      const title = document.createElement('h3');
+      title.textContent = event.title;
+      const meta = document.createElement('p');
+      meta.className = 'event-meta';
+      meta.textContent = [formatDateRange(event), event.location]
+        .filter(Boolean)
+        .join(' · ');
+      li.appendChild(title);
+      li.appendChild(meta);
+      if (event.description) {
+        const desc = document.createElement('p');
+        desc.textContent = event.description;
+        li.appendChild(desc);
+      }
+      eventList.appendChild(li);
+    }
+  }
+
+  document.getElementById('cal-prev')?.addEventListener('click', () => {
+    current = new Date(current.getFullYear(), current.getMonth() - 1, 1);
+    loadEvents();
+  });
+
+  document.getElementById('cal-next')?.addEventListener('click', () => {
+    current = new Date(current.getFullYear(), current.getMonth() + 1, 1);
+    loadEvents();
+  });
+
+  document.getElementById('cal-today')?.addEventListener('click', () => {
+    current = new Date();
+    loadEvents();
+  });
+
+  modalClose.addEventListener('click', () => modal.close());
+
+  if (location.hash === '#upcoming') {
+    document.getElementById('upcoming-heading')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  loadEvents();
+</script>

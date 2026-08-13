@@ -1,0 +1,20 @@
+---
+import { getEntry } from 'astro:content';
+
+const siteEntry = await getEntry('site', 'config');
+const site = siteEntry?.data;
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>&copy; {new Date().getFullYear()} {site?.clubName ?? 'Arcadia University CS Club'}</p>
+    <div class="btn-row" style="margin-top: 0">
+      <a href={site?.githubUrl ?? 'https://github.com/TheEva66/arcadiacsclub'}>GitHub</a>
+      {site?.social.discord && <a href={site.social.discord}>Discord</a>}
+      {site?.social.instagram && <a href={site.social.instagram}>Instagram</a>}
+      <a href="/contact">Contact</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </div>
+  </div>
+</footer>

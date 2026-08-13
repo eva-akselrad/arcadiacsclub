@@ -1,0 +1,56 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const siteEntry = await getEntry('site', 'config');
+const site = siteEntry?.data;
+---
+
+<Layout
+  title={site?.clubName ?? 'Arcadia University CS Club'}
+  description="Join the Arcadia University Computer Science Club for games, coding competitions, workshops, and free food."
+>
+  <section class="hero">
+    <h1>{site?.clubName}</h1>
+    <p>{site?.tagline}</p>
+    <p>
+      We meet {site?.meetingSchedule?.toLowerCase()} in {site?.meetingLocation}. Whether
+      you're a coding wizard, just starting out, or still figuring out what a folder is —
+      there's something for everyone.
+    </p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/signup">Join the club</a>
+      <a class="btn btn-secondary" href="/calendar">View calendar</a>
+      <a class="btn btn-secondary" href="/contact">Contact us</a>
+    </div>
+  </section>
+
+  <div class="card-grid">
+    <article class="card">
+      <h2>What we do</h2>
+      <p>
+        Programming competitions, game nights, workshops, and plenty of free food. Come hang
+        out, learn something new, and meet other CS students.
+      </p>
+    </article>
+    <article class="card">
+      <h2>When &amp; where</h2>
+      <p>
+        {site?.meetingSchedule} in <strong>{site?.meetingLocation}</strong>. Check the
+        calendar for special events and schedule changes.
+      </p>
+    </article>
+    <article class="card">
+      <h2>Get involved</h2>
+      <p>
+        Sign up to stay in the loop, follow our events, and reach out if you have questions
+        about the club or need help with code.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-secondary" href={site?.googleFormUrl}>Sign up form</a>
+      </div>
+    </article>
+  </div>
+</Layout>

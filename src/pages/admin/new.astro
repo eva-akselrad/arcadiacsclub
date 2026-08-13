@@ -1,0 +1,15 @@
+---
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import EventForm from '../../components/EventForm.astro';
+---
+
+<Layout title="Admin — New Event" description="Create a new club calendar event.">
+  <header class="page-header">
+    <h1>New event</h1>
+    <p>Add a meeting, social, competition, or workshop to the club calendar.</p>
+  </header>
+
+  <EventForm submitLabel="Create event" />
+</Layout>

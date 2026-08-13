@@ -1,0 +1,99 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const siteEntry = await getEntry('site', 'config');
+const site = siteEntry?.data;
+const siteUrl = site?.siteUrl ?? 'https://arcadiacs.club';
+const lastUpdated = 'August 13, 2026';
+---
+
+<Layout
+  title="Terms of Service"
+  description="Terms of service for the Arcadia University Computer Science Club website."
+>
+  <article class="legal-content card">
+    <header class="page-header">
+      <h1>Terms of Service</h1>
+      <p>Last updated: {lastUpdated}</p>
+    </header>
+
+    <p>
+      By using <a href={siteUrl}>{siteUrl}</a> (the "Site"), operated by the Arcadia University
+      Computer Science Club, you agree to these Terms of Service. If you do not agree, please do
+      not use the Site.
+    </p>
+
+    <h2>Use of the Site</h2>
+    <p>The Site provides information about the club, events, officers, and ways to get involved. You agree to:</p>
+    <ul>
+      <li>Use the Site only for lawful purposes.</li>
+      <li>Not attempt to disrupt, scrape, or attack the Site or its systems.</li>
+      <li>Not submit false, abusive, or spam content through our forms.</li>
+      <li>Not access admin areas without authorization.</li>
+    </ul>
+
+    <h2>Club membership</h2>
+    <p>
+      Signing up for the club through our linked Google Form is separate from use of this Site.
+      Membership policies are set by the club and Arcadia University, not by these terms alone.
+    </p>
+
+    <h2>Contact form</h2>
+    <p>
+      When you contact us, you agree that we may use the information you provide to respond to
+      you. See our <a href="/privacy">Privacy Policy</a> for details on how we handle that
+      information.
+    </p>
+
+    <h2>Calendar and events</h2>
+    <p>
+      Event times, locations, and descriptions are provided for convenience. Always confirm
+      details with club officers before attending. We may change or cancel events without notice
+      on the Site.
+    </p>
+
+    <h2>Intellectual property</h2>
+    <p>
+      Club branding, site content, and original materials on this Site are owned by the Arcadia
+      University Computer Science Club unless otherwise noted. Officer photos and bios are
+      published with permission for club purposes.
+    </p>
+
+    <h2>Third-party services</h2>
+    <p>
+      The Site may link to or embed third-party services (for example, Google Forms, Cloudflare
+      Turnstile). Your use of those services is subject to their own terms and policies.
+    </p>
+
+    <h2>Disclaimer</h2>
+    <p>
+      The Site is provided "as is" without warranties of any kind. We do not guarantee that the
+      Site will be uninterrupted, error-free, or always up to date. The club is a student
+      organization and this Site is not an official Arcadia University website unless stated
+      otherwise.
+    </p>
+
+    <h2>Limitation of liability</h2>
+    <p>
+      To the fullest extent permitted by law, the club and its officers are not liable for any
+      damages arising from your use of the Site, including reliance on event information or
+      third-party links.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      We may update these terms at any time. Continued use of the Site after changes are posted
+      constitutes acceptance of the updated terms.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about these terms: <a href="mailto:contact@arcadiacs.club">contact@arcadiacs.club</a>
+      or <a href="/contact">our contact form</a>. Website issues:
+      <a href="mailto:admin@arcadiacs.club">admin@arcadiacs.club</a>.
+    </p>
+  </article>
+</Layout>

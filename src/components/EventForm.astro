@@ -1,0 +1,130 @@
+---
+interface Props {
+  event?: {
+    id?: number;
+    title: string;
+    description?: string | null;
+    location?: string | null;
+    start_at: string;
+    end_at: string;
+    all_day: boolean;
+    category?: string | null;
+    recurrence_rule?: string | null;
+  };
+  submitLabel?: string;
+}
+
+const { event, submitLabel = 'Save event' } = Astro.props;
+const isEdit = Boolean(event?.id);
+---
+
+<form class="form-card" id="event-form">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input id="title" name="title" type="text" required maxlength="200" value={event?.title ?? ''} />
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea id="description" name="description">{event?.description ?? ''}</textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="location">Location</label>
+    <input id="location" name="location" type="text" value={event?.location ?? ''} />
+  </div>
+
+  <div class="form-group">
+    <label for="category">Category</label>
+    <select id="category" name="category">
+      <option value="meeting" selected={event?.category === 'meeting'}>Meeting</option>
+      <option value="social" selected={event?.category === 'social'}>Social</option>
+      <option value="competition" selected={event?.category === 'competition'}>Competition</option>
+      <option value="workshop" selected={event?.category === 'workshop'}>Workshop</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="start_at">Start</label>
+    <input
+      id="start_at"
+      name="start_at"
+      type="datetime-local"
+      required
+      value={event?.start_at ? event.start_at.slice(0, 16) : ''}
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="end_at">End</label>
+    <input
+      id="end_at"
+      name="end_at"
+      type="datetime-local"
+      required
+      value={event?.end_at ? event.end_at.slice(0, 16) : ''}
+    />
+  </div>
+
+  <div class="form-group">
+    <label>
+      <input id="all_day" name="all_day" type="checkbox" checked={event?.all_day} />
+      All-day event
+    </label>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" type="submit">{submitLabel}</button>
+    <a class="btn btn-secondary" href="/admin">Cancel</a>
+  </div>
+
+  <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+</form>
+
+<script define:vars={{ eventId: event?.id ?? null, isEdit }}>
+  const form = document.getElementById('event-form');
+  const status = document.getElementById('form-status');
+
+  function showStatus(message, type) {
+    status.textContent = message;
+    status.className = `form-status visible ${type}`;
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const payload = {
+      title: String(data.get('title') ?? ''),
+      description: String(data.get('description') ?? ''),
+      location: String(data.get('location') ?? ''),
+      category: String(data.get('category') ?? ''),
+      start_at: new Date(String(data.get('start_at'))).toISOString(),
+      end_at: new Date(String(data.get('end_at'))).toISOString(),
+      all_day: data.get('all_day') === 'on',
+    };
+
+    const url = isEdit ? `/api/admin/events/${eventId}` : '/api/admin/events';
+    const method = isEdit ? 'PUT' : 'POST';
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Request failed' }));
+        showStatus(err.error ?? 'Failed to save event', 'error');
+        return;
+      }
+
+      showStatus('Event saved! Redirecting…', 'success');
+      setTimeout(() => {
+        window.location.href = '/admin';
+      }, 800);
+    } catch {
+      showStatus('Network error. Please try again.', 'error');
+    }
+  });
+</script>

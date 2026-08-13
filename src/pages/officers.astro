@@ -1,0 +1,25 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import OfficerCard from '../components/OfficerCard.astro';
+import { getCollection } from 'astro:content';
+
+const officers = (await getCollection('officers')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Layout
+  title="Officers"
+  description="Meet the officers of the Arcadia University Computer Science Club."
+>
+  <header class="page-header">
+    <h1>Club officers</h1>
+    <p>Reach out to any of us with questions about the club, events, or getting involved.</p>
+  </header>
+
+  <div class="officers-grid">
+    {officers.map((officer) => <OfficerCard officer={officer} />)}
+  </div>
+</Layout>
